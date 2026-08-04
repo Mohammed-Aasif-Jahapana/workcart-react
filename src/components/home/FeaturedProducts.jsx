@@ -1,42 +1,20 @@
 import { useEffect, useState } from "react";
 import ProductCard from "../common/ProductCard";
-//import productList from "../../data/products"; //custom json data 
-import getProducts from "../../services/productService"; //from dummy api
 
 import ProductCardSkeleton from "../common/ProductCardSkeleton";
 
 
 
-const FeaturedProducts = ({ searchText }) => {
+const FeaturedProducts = ({ productList, loading, error, searchText, selectedCategory }) => {
 
-  const [productList, setProductList] = useState([]); //for listing product form api
+  const filteredProducts = productList.filter((product) => {
 
-  const [loading, setLoading] = useState(true); //skeleton loader
-  const [error, setError] = useState("");
+    const matchesSearch = product.title.toLowerCase().includes(searchText.toLowerCase());
 
+    const matchesCategory =selectedCategory === "all" || product.category === selectedCategory;
 
-  useEffect(() => {   //useEffect runs code after the component is rendered.
-    loadProducts();
-  }, []);
-
-
-  const loadProducts = async () => {
-    try {
-      const products = await getProducts();
-
-      setProductList(products);
-    } catch (error) {
-      console.error(error);
-
-      setError("Failed to load products.");
-    } finally {
-      setLoading(false);
-    }
-
-  };
-
-
-  const filteredProducts = productList.filter((product) => product.title.toLowerCase().includes(searchText.toLowerCase()))
+    return matchesSearch && matchesCategory;
+  });
 
 
 
