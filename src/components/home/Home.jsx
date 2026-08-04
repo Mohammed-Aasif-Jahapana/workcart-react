@@ -6,12 +6,15 @@ import Hero from "./Hero";
 import Categories from "./Categories";
 import FeaturedProducts from "./FeaturedProducts";
 import TodaysDeals from "./TodaysDeals";
+import ProductFilters from './ProductFilters'
 
 
 const Home = () => {
 
   //lifting up state, bcz we need to pass searchtext to nearest parent of navar- so adding in home js
   const [searchText, setSearchText] = useState("");
+
+
 
   return (
     <>
@@ -20,11 +23,12 @@ const Home = () => {
         setSearchText={setSearchText}
       />
       <Hero />
+      <ProductFilters />
       <Categories />
+      
       <FeaturedProducts
         searchText={searchText}
-      />
-      <TodaysDeals />
+      /> 
       <Footer />
     </>
   );
