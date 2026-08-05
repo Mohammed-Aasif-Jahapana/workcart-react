@@ -1,4 +1,4 @@
-const ProductFilters = ({ productList, selectedCategory, setSelectedCategory }) => {
+const ProductFilters = ({ productList, selectedCategory, setSelectedCategory, sortBy, setSortBy }) => {
 
     const categories = ["all", ...new Set(productList.map((product) => product.category))];
 
@@ -9,16 +9,28 @@ const ProductFilters = ({ productList, selectedCategory, setSelectedCategory }) 
                     value={selectedCategory}
                     onChange={(event) => setSelectedCategory(event.target.value)}
                     className="rounded-lg border border-gray-300 px-4 py-2 outline-none focus:border-blue-500">
-                    
+
                     {
-                    categories.map((category) => (
-                        <option key={category}value={category}>
-                            {category}
-                        </option>
-                    ))
+                        categories.map((category) => (
+                            <option key={category} value={category}>
+                                {category}
+                            </option>
+                        ))
                     }
 
-                </select> 
+                </select>
+
+                <select
+                    value={sortBy}
+                    onChange={(event) => setSortBy(event.target.value)}
+                    className="rounded-lg border border-gray-300 mx-4 px-4 py-2 outline-none focus:border-blue-500"
+                >
+                    <option value="default">Default</option>
+                    <option value="priceLow">Price: Low to High</option>
+                    <option value="priceHigh">Price: High to Low</option>
+                    <option value="nameAsc">Name: A to Z</option>
+                    <option value="nameDesc">Name: Z to A</option>
+                </select>
             </div>
         </section>
     );

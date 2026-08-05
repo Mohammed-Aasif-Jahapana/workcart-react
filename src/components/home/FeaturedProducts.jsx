@@ -5,16 +5,35 @@ import ProductCardSkeleton from "../common/ProductCardSkeleton";
 
 
 
-const FeaturedProducts = ({ productList, loading, error, searchText, selectedCategory }) => {
+const FeaturedProducts = ({ productList, loading, error, searchText, selectedCategory, sortBy }) => {
 
   const filteredProducts = productList.filter((product) => {
 
     const matchesSearch = product.title.toLowerCase().includes(searchText.toLowerCase());
 
-    const matchesCategory =selectedCategory === "all" || product.category === selectedCategory;
+    const matchesCategory = selectedCategory === "all" || product.category === selectedCategory;
 
     return matchesSearch && matchesCategory;
   });
+
+  
+  const sortedProducts = [...filteredProducts]; //sort will replace the original array, so making copy of it
+
+  if (sortBy === "priceLow") {
+    sortedProducts.sort((a, b) => a.price - b.price);
+  }
+
+  if (sortBy === "priceHigh") {
+    sortedProducts.sort((a, b) => b.price - a.price);
+  }
+
+  if (sortBy === "nameAsc") {
+    sortedProducts.sort((a, b) => a.title.localeCompare(b.title));
+  }
+
+  if (sortBy === "nameDesc") {
+    sortedProducts.sort((a, b) => b.title.localeCompare(a.title));
+  }
 
 
 
@@ -72,7 +91,7 @@ const FeaturedProducts = ({ productList, loading, error, searchText, selectedCat
 
         {filteredProducts.length > 0 && (
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {filteredProducts.map((product) => (
+            {sortedProducts.map((product) => (
               <ProductCard
                 key={product.id}
                 productData={product}

@@ -19,6 +19,7 @@ const Home = () => {
   const [error, setError] = useState("");
   const [searchText, setSearchText] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [sortBy, setSortBy] = useState("default");
 
 
   useEffect(() => {
@@ -50,6 +51,8 @@ const Home = () => {
         productList={productList}
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
+          sortBy={sortBy}
+  setSortBy={setSortBy}
       />
       <Categories />
 
@@ -58,7 +61,9 @@ const Home = () => {
         loading={loading}
         error={error}
         searchText={searchText}
-        selectedCategory={selectedCategory} />
+        selectedCategory={selectedCategory} 
+        sortBy={sortBy}
+          />
       <Footer />
     </>
   );
