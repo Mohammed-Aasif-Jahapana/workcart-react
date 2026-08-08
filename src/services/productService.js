@@ -21,4 +21,26 @@ const getProducts = async () => {
   return transformedProducts;
 };
 
+
+export const getProductById = async (id) => {
+  const response = await fetch(`${PRODUCT_API}/${id}`);
+
+  const apiProduct = await response.json();
+
+  return {
+    id: apiProduct.id,
+    title: apiProduct.title,
+    category: apiProduct.category,
+    price: apiProduct.price,
+    rating: apiProduct.rating,
+    image: apiProduct.thumbnail,
+    description: apiProduct.description,
+    oldPrice: Math.round(
+      apiProduct.price /
+      (1 - apiProduct.discountPercentage / 100)
+    ),
+  };
+};
+
+
 export default getProducts;

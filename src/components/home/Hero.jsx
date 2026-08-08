@@ -1,10 +1,11 @@
-import heroBanner from "../../assets/images/hero-banner.png";
+import heroBanner from "../../assets/images/hero-banner.png"; 
 
-const Hero = () => {
+const Hero = () => { 
+
   return (
-    <section className="bg-gradient-to-r from-blue-50 to-white">
+    <section className="bg-gradient-to-r from-blue-50 to-white"> 
       <div className="mx-auto flex max-w-7xl flex-col-reverse items-center gap-12 px-4 py-12 sm:px-6 lg:flex-row lg:px-8 lg:py-20">
-        
+
         {/* Left Content */}
         <div className="w-full text-center lg:w-1/2 lg:text-left">
           <span className="inline-block rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-600">

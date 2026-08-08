@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import ProductCard from "../common/ProductCard";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 
 import ProductCardSkeleton from "../common/ProductCardSkeleton";
 
 
-
-const FeaturedProducts = ({ productList, loading, error, searchText, selectedCategory, sortBy }) => {
+const FeaturedProducts = ({ productList, loading, error, searchText, selectedCategory, sortBy, wishlist, toggleWishlist }) => {
 
   const filteredProducts = productList.filter((product) => {
 
@@ -16,7 +16,7 @@ const FeaturedProducts = ({ productList, loading, error, searchText, selectedCat
     return matchesSearch && matchesCategory;
   });
 
-  
+
   const sortedProducts = [...filteredProducts]; //sort will replace the original array, so making copy of it
 
   if (sortBy === "priceLow") {
@@ -95,6 +95,8 @@ const FeaturedProducts = ({ productList, loading, error, searchText, selectedCat
               <ProductCard
                 key={product.id}
                 productData={product}
+                wishlist={wishlist}
+                toggleWishlist={toggleWishlist}
               />
             ))}
           </div>

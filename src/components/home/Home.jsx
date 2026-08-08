@@ -7,7 +7,8 @@ import Categories from "./Categories";
 import FeaturedProducts from "./FeaturedProducts";
 import TodaysDeals from "./TodaysDeals";
 import ProductFilters from './ProductFilters'
-import getProducts from '../../services/productService'
+import getProducts from '../../services/productService' 
+import WishedListPage from "./WishedListPage";
 
 
 const Home = () => {
@@ -19,7 +20,7 @@ const Home = () => {
   const [error, setError] = useState("");
   const [searchText, setSearchText] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [sortBy, setSortBy] = useState("default");
+  const [sortBy, setSortBy] = useState("default");  
 
 
   useEffect(() => {
@@ -51,19 +52,21 @@ const Home = () => {
         productList={productList}
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
-          sortBy={sortBy}
-  setSortBy={setSortBy}
+        sortBy={sortBy}
+        setSortBy={setSortBy}
       />
       <Categories />
+     <WishedListPage/>
+      
 
       <FeaturedProducts
         productList={productList}
         loading={loading}
         error={error}
         searchText={searchText}
-        selectedCategory={selectedCategory} 
-        sortBy={sortBy}
-          />
+        selectedCategory={selectedCategory}
+        sortBy={sortBy}  
+      />
       <Footer />
     </>
   );
