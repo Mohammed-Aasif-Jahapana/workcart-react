@@ -2,16 +2,29 @@ import React from 'react'
 import { useContext } from "react";
 import WishlistContext from "../../context/WishlistContext";
 import ProductCard from '../common/ProductCard';
+import { Link } from "react-router-dom";
 
-const WishedListPage = () => {
+const WishedListPage = ({showBackButton = true}) => {
 
-    const { wishlist } = useContext(WishlistContext); 
+  const { wishlist } = useContext(WishlistContext);
 
-
-    console.log("wishelkjfsdljflskdjfkljsdkf", wishlist)
-    
-    return (
+  return (
     <section className="bg-gray-50 py-16">
+      {
+        showBackButton && (
+              <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+        {/* Back Button */}
+        <button className="mb-8 font-medium text-blue-600 transition hover:underline">
+
+          <Link to={"/"} >
+            ← Back to Products
+          </Link>
+        </button>
+      </div>
+        )
+      }
+  
       <div className="mx-auto max-w-7xl px-4">
 
         <h1 className="mb-8 text-3xl font-bold text-gray-800">
@@ -26,11 +39,11 @@ const WishedListPage = () => {
           </div>
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-             
+
             {wishlist.map((product) => (
               <ProductCard
-                key={product.id} 
-                productData={product} 
+                key={product.id}
+                productData={product}
               />
             ))}
           </div>

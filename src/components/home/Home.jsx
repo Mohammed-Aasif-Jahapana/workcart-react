@@ -56,7 +56,7 @@ const Home = () => {
         setSortBy={setSortBy}
       />
       <Categories />
-     <WishedListPage/>
+     <WishedListPage showBackButton={false}/>
       
 
       <FeaturedProducts
