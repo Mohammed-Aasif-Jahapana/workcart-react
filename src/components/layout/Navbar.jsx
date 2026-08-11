@@ -1,65 +1,127 @@
-import { useContext } from "react"; 
-import { FaRegHeart, FaHeart, FaStar } from "react-icons/fa";  
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import WishlistContext from '../../context/WishlistContext'
+import { FaShoppingCart, FaHeart } from "react-icons/fa";
 
-const Navbar = ({ searchText, setSearchText }) => { 
+import Login from "../../auth/Login";
+import CartContext from "../../context/CartContext";
+import WishlistContext from "../../context/WishlistContext";
+import { useContext } from "react";
+
+const Navbar = () => {
+
+  const [showLogin, setShowLogin] = useState(false);
+
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    !!localStorage.getItem("accessToken")
+  );
 
   const { wishlist } = useContext(WishlistContext);
+  const { cart } = useContext(CartContext);
+
+
+  const handleLogout = () => {
+
+    localStorage.removeItem("accessToken");
+
+    setIsLoggedIn(false);
+  };
+
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-white shadow-sm">
-      
-      <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+    <>
 
-        {/* Logo */}
-        <div className="flex justify-center lg:justify-start">
-          <h1 className="text-3xl font-bold text-blue-600">
-            WorkCart
-          </h1>
-        </div>
+      {/* Navbar */}
+      <nav className="sticky top-0 z-40 bg-white shadow-md">
 
-        {/* Search */}
-        <div className="w-full lg:w-[40%]">
-          <input
-            type="text"
-            placeholder="Search for products..."
-            value={searchText}
-            onChange={(event) => setSearchText(event.target.value)}
-            className="w-full rounded-lg border border-gray-300 px-4 py-2 outline-none focus:border-blue-500"
-          />
-        </div>
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
 
-        {/* Actions */}
-        <div className="flex justify-center gap-4 sm:gap-6">
-          <button className="font-medium transition hover:text-blue-600">
-            Login
-          </button>
 
+          {/* Logo */}
           <Link
-            to="/wishedList"
-            className="relative flex items-center gap-2 rounded-lg px-3 py-2 transition hover:bg-gray-100"
+            to="/"
+            className="text-2xl font-bold text-blue-600"
           >
-            <FaHeart className="text-xl text-red-500" />
-
-            <span className="font-medium text-gray-700">
-              Wishlist
-            </span>
-
-            {wishlist.length > 0 && (
-              <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1 text-xs font-bold text-white">
-                {wishlist.length}
-              </span>
-            )}
+            WorkCart
           </Link>
 
-          <button className="font-medium transition hover:text-blue-600">
-            Cart
-          </button>
+
+          {/* Right Side */}
+          <div className="flex items-center gap-5">
+
+
+            {/* Wishlist */}
+            <Link
+              to="/wishedList"
+              className="relative text-xl text-gray-600 hover:text-red-500"
+            >
+
+              <FaHeart />
+
+              {wishlist.length > 0 && (
+                <span className="absolute -right-3 -top-3 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+                  {wishlist.length}
+                </span>
+              )}
+
+            </Link>
+
+
+            {/* Cart */}
+            <Link
+              to="/addCart"
+              className="relative text-xl text-gray-600 hover:text-blue-600"
+            >
+
+              <FaShoppingCart />
+
+              {cart.length > 0 && (
+                <span className="absolute -right-3 -top-3 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-xs text-white">
+                  {cart.length}
+                </span>
+              )}
+
+            </Link>
+
+
+            {/* Login / Logout */}
+            {isLoggedIn ? (
+
+              <button
+                onClick={handleLogout}
+                className="rounded-lg bg-red-500 px-5 py-2 font-semibold text-white transition hover:bg-red-600"
+              >
+                Logout
+              </button>
+
+            ) : (
+
+              <button
+                onClick={() => setShowLogin(true)}
+                className="rounded-lg bg-blue-600 px-5 py-2 font-semibold text-white transition hover:bg-blue-700"
+              >
+                Login
+              </button>
+
+            )}
+
+          </div>
+
         </div>
 
-      </div>
-    </header>
+      </nav>
+
+
+      {/* Login Modal */}
+      {showLogin && (
+
+        <Login
+          onClose={() => setShowLogin(false)}
+          onLoginSuccess={() => setIsLoggedIn(true)}
+        />
+
+      )}
+
+    </>
   );
 };
 

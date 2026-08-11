@@ -9,6 +9,7 @@ import TodaysDeals from "./TodaysDeals";
 import ProductFilters from './ProductFilters'
 import getProducts from '../../services/productService' 
 import WishedListPage from "./WishedListPage";
+import AddCartPage from "./AddCartPage";  
 
 
 const Home = () => {
@@ -42,7 +43,7 @@ const Home = () => {
 
 
   return (
-    <>
+    <>  
       <Navbar
         searchText={searchText}
         setSearchText={setSearchText}
@@ -56,8 +57,9 @@ const Home = () => {
         setSortBy={setSortBy}
       />
       <Categories />
-     <WishedListPage showBackButton={false}/>
-      
+
+      {/* <WishedListPage showBackButton={false}/>
+      <AddCartPage showOrderSummary={false}/> */}
 
       <FeaturedProducts
         productList={productList}
