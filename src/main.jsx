@@ -7,14 +7,19 @@ import { BrowserRouter } from "react-router-dom";
 import { WishlistProvider } from './context/WishlistContext.jsx';
 import { CartProvider } from './context/CartContext.jsx';
 
+import { Provider } from "react-redux";
+import { mystore } from "./redux/store.js";
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
-      <WishlistProvider>
-        <CartProvider>
-          <App />
-        </CartProvider>
-      </WishlistProvider>
-    </BrowserRouter>
+    <Provider store={mystore}>
+      <BrowserRouter>
+        <WishlistProvider>
+          <CartProvider>
+            <App />
+          </CartProvider>
+        </WishlistProvider>
+      </BrowserRouter>
+    </Provider>
   </StrictMode>,
 )

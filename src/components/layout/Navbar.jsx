@@ -1,30 +1,34 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { FaShoppingCart, FaHeart } from "react-icons/fa";
+import {
+  FaShoppingCart,
+  FaHeart,
+  FaSearch
+} from "react-icons/fa";
 
 import Login from "../../auth/Login";
 import CartContext from "../../context/CartContext";
 import WishlistContext from "../../context/WishlistContext";
-import { useContext } from "react";
 
-const Navbar = () => {
+import { useSelector, useDispatch } from "react-redux";
+import { mylogout } from "../../redux/authSlice";
+
+const Navbar = ({ searchText, setSearchText }) => {
+
+  const isLoggedInUser = useSelector(
+    (state) => state.auth.isLoggedIn
+  );
+
+  const loggedInUser = useSelector(
+    (state) => state.auth.user
+  );
 
   const [showLogin, setShowLogin] = useState(false);
-
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    !!localStorage.getItem("accessToken")
-  );
 
   const { wishlist } = useContext(WishlistContext);
   const { cart } = useContext(CartContext);
 
-
-  const handleLogout = () => {
-
-    localStorage.removeItem("accessToken");
-
-    setIsLoggedIn(false);
-  };
+  const dispatch = useDispatch();
 
 
   return (
@@ -33,20 +37,35 @@ const Navbar = () => {
       {/* Navbar */}
       <nav className="sticky top-0 z-40 bg-white shadow-md">
 
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
-
+        <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-4">
 
           {/* Logo */}
           <Link
             to="/"
-            className="text-2xl font-bold text-blue-600"
+            className="shrink-0 text-2xl font-bold text-blue-600"
           >
             WorkCart
           </Link>
 
 
+          {/* Search */}
+          <div className="relative mx-auto hidden w-full max-w-xl md:block">
+
+            <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+
+            <input
+              type="text"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              placeholder="Search products..."
+              className="w-full rounded-full border border-gray-300 py-3 pl-11 pr-4 outline-none focus:border-blue-500"
+            />
+
+          </div>
+
+
           {/* Right Side */}
-          <div className="flex items-center gap-5">
+          <div className="ml-auto flex shrink-0 items-center gap-5">
 
 
             {/* Wishlist */}
@@ -84,10 +103,10 @@ const Navbar = () => {
 
 
             {/* Login / Logout */}
-            {isLoggedIn ? (
+            {isLoggedInUser ? (
 
               <button
-                onClick={handleLogout}
+                onClick={() => dispatch(mylogout())}
                 className="rounded-lg bg-red-500 px-5 py-2 font-semibold text-white transition hover:bg-red-600"
               >
                 Logout
@@ -108,17 +127,34 @@ const Navbar = () => {
 
         </div>
 
+
+        {/* Mobile Search */}
+        <div className="px-4 pb-4 md:hidden">
+
+          <div className="relative">
+
+            <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+
+            <input
+              type="text"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              placeholder="Search products..."
+              className="w-full rounded-full border border-gray-300 py-3 pl-11 pr-4 outline-none focus:border-blue-500"
+            />
+
+          </div>
+
+        </div>
+
       </nav>
 
 
       {/* Login Modal */}
       {showLogin && (
-
         <Login
           onClose={() => setShowLogin(false)}
-          onLoginSuccess={() => setIsLoggedIn(true)}
         />
-
       )}
 
     </>

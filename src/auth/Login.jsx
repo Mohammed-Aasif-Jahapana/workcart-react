@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { FaTimes } from "react-icons/fa";
 
-const Login = ({ onClose, onLoginSuccess }) => {
+
+import { useDispatch } from "react-redux";
+import { mylogin } from "../redux/authSlice";
+
+
+const Login = ({ onClose }) => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -9,6 +14,7 @@ const Login = ({ onClose, onLoginSuccess }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
 
@@ -39,32 +45,22 @@ const Login = ({ onClose, onLoginSuccess }) => {
       const data = await response.json();
 
 
+      dispatch(
+        mylogin({
+          user: data,
+          token: data.accessToken
+        })
+      );
+
+
       if (!response.ok) {
 
         throw new Error(
           data.message || "Login failed"
         );
 
-      }
-
-
-      console.log(
-        "Login successful:",
-        data
-      );
-
-
-      // Temporary storage
-      localStorage.setItem(
-        "accessToken",
-        data.accessToken
-      );
-
-
-      // Tell Navbar login succeeded
-      onLoginSuccess();
-
-
+      } 
+      
       // Close popup
       onClose();
 

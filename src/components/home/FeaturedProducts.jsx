@@ -36,6 +36,10 @@ const FeaturedProducts = ({ productList, loading, error, searchText, selectedCat
   }
 
 
+  const [visibleCount, setVisibleCount] = useState(8);
+
+  const visibleProducts = sortedProducts.slice(0, visibleCount);
+
 
   if (loading) {
     return (
@@ -91,7 +95,7 @@ const FeaturedProducts = ({ productList, loading, error, searchText, selectedCat
 
         {filteredProducts.length > 0 && (
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {sortedProducts.map((product) => (
+            {visibleProducts.map((product) => (
               <ProductCard
                 key={product.id}
                 productData={product}
@@ -99,9 +103,24 @@ const FeaturedProducts = ({ productList, loading, error, searchText, selectedCat
                 toggleWishlist={toggleWishlist}
               />
             ))}
+
+
+          </div>
+
+        )}
+        {visibleCount < sortedProducts.length && (
+          <div className="mt-14 flex justify-center">
+            <button
+              onClick={() => setVisibleCount(visibleCount + 8)}
+              className="group flex items-center gap-2 rounded-full border border-gray-300 bg-white px-8 py-3 font-semibold text-gray-700 shadow-sm transition-all duration-200 hover:border-blue-600 hover:bg-blue-600 hover:text-white hover:shadow-lg"
+            >
+              Load More
+              <span className="transition-transform duration-200 group-hover:translate-y-1">
+                ↓
+              </span>
+            </button>
           </div>
         )}
-
       </div>
     </section>
   );
