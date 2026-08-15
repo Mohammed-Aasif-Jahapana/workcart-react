@@ -114,7 +114,7 @@ const ProductCard = ({ productData }) => {
             {productData.category}
           </p>
 
-          <h3 className="mt-1 line-clamp-2 text-lg font-semibold">
+          <h3 className="min-h-[56px] mt-1 line-clamp-2 text-lg font-semibold">
             {productData.title}
           </h3>
 
@@ -161,4 +161,4 @@ const ProductCard = ({ productData }) => {
   );
 };
 
-export default ProductCard;
+export default ProductCard; 

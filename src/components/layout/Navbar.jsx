@@ -1,9 +1,10 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   FaShoppingCart,
   FaHeart,
-  FaSearch
+  FaSearch,
+  FaUserCircle,
 } from "react-icons/fa";
 
 import Login from "../../auth/Login";
@@ -28,7 +29,34 @@ const Navbar = ({ searchText, setSearchText }) => {
   const { wishlist } = useContext(WishlistContext);
   const { cart } = useContext(CartContext);
 
+
   const dispatch = useDispatch();
+
+
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const profileMenuRef = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        profileMenuRef.current &&
+        !profileMenuRef.current.contains(event.target)
+      ) {
+        setShowProfileMenu(false);
+      }
+    };
+
+    document.addEventListener(
+      "mousedown",
+      handleClickOutside
+    );
+
+    return () => {
+      document.removeEventListener(
+        "mousedown",
+        handleClickOutside
+      );
+    };
+  }, []);
 
 
   return (
@@ -76,7 +104,7 @@ const Navbar = ({ searchText, setSearchText }) => {
 
               <FaHeart />
 
-              {wishlist.length > 0 && (
+              {isLoggedInUser && wishlist.length > 0 && (
                 <span className="absolute -right-3 -top-3 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                   {wishlist.length}
                 </span>
@@ -93,7 +121,7 @@ const Navbar = ({ searchText, setSearchText }) => {
 
               <FaShoppingCart />
 
-              {cart.length > 0 && (
+              {isLoggedInUser && cart.length > 0 && (
                 <span className="absolute -right-3 -top-3 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-xs text-white">
                   {cart.length}
                 </span>
@@ -105,22 +133,59 @@ const Navbar = ({ searchText, setSearchText }) => {
             {/* Login / Logout */}
             {isLoggedInUser ? (
 
-              <button
-                onClick={() => dispatch(mylogout())}
-                className="rounded-lg bg-red-500 px-5 py-2 font-semibold text-white transition hover:bg-red-600"
-              >
-                Logout
-              </button>
+              <div className="relative" ref={profileMenuRef}>
+
+                <button
+                  onClick={() =>
+                    setShowProfileMenu(!showProfileMenu)
+                  }
+                >
+                  <FaUserCircle className="text-4xl text-gray-600" />
+                </button>
+
+                {showProfileMenu && (
+                  <div className="absolute right-0 top-12 w-56 rounded-xl border bg-white p-2 shadow-lg">
+
+                    <div className="border-b p-3">
+                      <p className="font-semibold">
+                        {loggedInUser?.firstName} {loggedInUser?.lastName}
+                      </p>
+
+                      <p className="text-sm text-gray-500">
+                        @{loggedInUser?.username}
+                      </p>
+                    </div>
+
+                    <Link
+                      to="/profile"
+                      onClick={() => setShowProfileMenu(false)}
+                      className="block rounded-lg px-4 py-3 hover:bg-gray-100"
+                    >
+                      Profile
+                    </Link>
+
+                    <button
+                      onClick={() => {
+                        dispatch(mylogout());
+                        setShowProfileMenu(false);
+                      }}
+                      className="w-full rounded-lg px-4 py-3 text-left hover:bg-gray-100"
+                    >
+                      Logout
+                    </button>
+
+                  </div>
+                )}
+
+              </div>
 
             ) : (
-
               <button
                 onClick={() => setShowLogin(true)}
-                className="rounded-lg bg-blue-600 px-5 py-2 font-semibold text-white transition hover:bg-blue-700"
+                className="rounded-lg bg-blue-600 px-5 py-2 font-semibold text-white"
               >
                 Login
               </button>
-
             )}
 
           </div>

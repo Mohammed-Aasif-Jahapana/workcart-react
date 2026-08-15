@@ -13,6 +13,8 @@ const AddCartPage = () => {
   const { cart, setCart } = useContext(CartContext);
 
 
+
+
   // Increase Quantity
   const handleIncrease = (productId) => {
 
@@ -67,7 +69,7 @@ const AddCartPage = () => {
 
 
   // Calculate Subtotal
-  const subtotal = cart.reduce((total, item) =>total + item.price * item.quantity, 0);
+  const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
 
 
   // Delivery
@@ -80,6 +82,8 @@ const AddCartPage = () => {
 
   return (
     <section className="min-h-screen bg-gray-50 py-10">
+
+
 
       <div className="mx-auto max-w-7xl px-4">
 
@@ -302,11 +306,17 @@ const AddCartPage = () => {
               </div>
 
 
-              <button
-                className="mt-6 w-full rounded-lg bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700"
-              >
-                Proceed to Checkout
-              </button>
+              <div className="mt-8 flex justify-end">
+
+                <Link
+                  to="/checkout"
+                  className="text-center mt-6 w-full rounded-lg bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700"
+                >
+                  Proceed to Checkout
+                </Link>
+
+              </div>
+
 
             </div>
 

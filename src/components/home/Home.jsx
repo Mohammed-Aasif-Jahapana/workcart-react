@@ -7,9 +7,10 @@ import Categories from "./Categories";
 import FeaturedProducts from "./FeaturedProducts";
 import TodaysDeals from "./TodaysDeals";
 import ProductFilters from './ProductFilters'
-import getProducts from '../../services/productService' 
+import getProducts from '../../services/productService'
 import WishedListPage from "./WishedListPage";
-import AddCartPage from "./AddCartPage";  
+import AddCartPage from "./AddCartPage";
+import Profile from "../../pages/Profile";
 
 
 const Home = () => {
@@ -19,14 +20,30 @@ const Home = () => {
   const [productList, setProductList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
   const [searchText, setSearchText] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [sortBy, setSortBy] = useState("default");  
+  const [sortBy, setSortBy] = useState("default");
 
 
   useEffect(() => {
     loadProducts();
   }, []);
+
+  useEffect(() => {
+
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchText);
+    }, 500);
+
+    return () => {
+      clearTimeout(timer);
+    };
+
+  }, [searchText]);
+
 
   const loadProducts = async () => {
     try {
@@ -43,7 +60,7 @@ const Home = () => {
 
 
   return (
-    <>  
+    <>
       <Navbar
         searchText={searchText}
         setSearchText={setSearchText}
@@ -65,9 +82,9 @@ const Home = () => {
         productList={productList}
         loading={loading}
         error={error}
-        searchText={searchText}
+        searchText={debouncedSearch}
         selectedCategory={selectedCategory}
-        sortBy={sortBy}  
+        sortBy={sortBy}
       />
       <Footer />
     </>
