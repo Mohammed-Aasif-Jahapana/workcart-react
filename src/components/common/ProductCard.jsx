@@ -5,18 +5,30 @@ import { useContext } from "react";
 import WishlistContext from "../../context/WishlistContext";
 import CartContext from "../../context/CartContext";
 
+import { useSelector } from "react-redux";
+
+
+import { toast } from "react-toastify";
+
 const ProductCard = ({ productData }) => {
+
+  const isLoggedInUser = useSelector(
+    (state) => state.auth.isLoggedIn
+  );
 
   const { wishlist, setWishlist } = useContext(WishlistContext);
   const { cart, setCart } = useContext(CartContext);
 
-  const exists = wishlist.some(
-    (item) => item.id === productData.id
-  );
+  const exists =
+    isLoggedInUser &&
+    wishlist.some(
+      (item) => item.id === productData.id
+    );
 
   const existCartData = cart.find(
     (item) => item.id === productData.id
   );
+
 
   // Wishlist
   const handleClickWishList = (e) => {
@@ -63,6 +75,7 @@ const ProductCard = ({ productData }) => {
       });
 
       setCart(updatedCart);
+      toast.success("Product added to cart!");
 
     } else {
 

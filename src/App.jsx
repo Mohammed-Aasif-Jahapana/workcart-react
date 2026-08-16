@@ -8,10 +8,16 @@ import ProtectedRoute from "./auth/ProtectedRoute";
 import Profile from "./pages/Profile";
 import Checkout from "./pages/Checkout";
 import OrderSuccess from "./pages/OrderSuccess";
+import ProductTable from "./pages/ProductTable";
+
+
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
-    <Routes>
+    <>
+        <Routes>
       <Route
         path="/"
         element={<Home />}
@@ -52,8 +58,15 @@ function App() {
       <Route path="/checkout" element={<Checkout />} />
 
       <Route path="/order-success"element={<OrderSuccess />}/>
+      <Route path="/product-table" element={<ProductTable />}/>
 
     </Routes>
+    <ToastContainer />
+
+    </>
+
+
+    
 
   );
 }

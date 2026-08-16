@@ -15,6 +15,7 @@ import Profile from "../../pages/Profile";
 //redux syncthunk concept
 import { useSelector, useDispatch } from "react-redux";
 import { fetchProducts } from "../../redux/productSlice";
+import ProductTable from "../../pages/ProductTable";
 
 
 const Home = () => {
@@ -80,7 +81,7 @@ const Home = () => {
 
 
   return (
-    <>
+    <> 
       <Navbar
         searchText={searchText}
         setSearchText={setSearchText}

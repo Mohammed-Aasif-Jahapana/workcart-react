@@ -32,6 +32,7 @@ const AddCartPage = () => {
     });
 
     setCart(updatedCart);
+    toast.success("Product added to cart!");
   };
 
 
@@ -65,6 +66,7 @@ const AddCartPage = () => {
     const updatedCart = cart.filter((item) => item.id !== productId);
 
     setCart(updatedCart);
+    toast.success("Product added to cart!");
   };
 
 

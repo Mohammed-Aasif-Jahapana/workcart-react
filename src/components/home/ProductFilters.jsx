@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const ProductFilters = ({ productList, selectedCategory, setSelectedCategory, sortBy, setSortBy }) => {
 
     const categories = ["all", ...new Set(productList.map((product) => product.category))];
@@ -31,6 +33,15 @@ const ProductFilters = ({ productList, selectedCategory, setSelectedCategory, so
                     <option value="nameAsc">Name: A to Z</option>
                     <option value="nameDesc">Name: Z to A</option>
                 </select>
+
+                <Link
+                    to="/product-table"
+                    className="inline-block rounded-lg bg-gray-800 px-4 py-2 text-white hover:bg-gray-700"
+                >
+                    See product list
+                </Link>
+
+
             </div>
         </section>
     );

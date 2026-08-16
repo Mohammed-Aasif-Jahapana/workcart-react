@@ -3,6 +3,8 @@ import CartContext from "../context/CartContext";
 
 import { useNavigate } from "react-router-dom";
 
+import { toast } from "react-toastify";
+
 const Checkout = () => {
 
     const { cart, setCart } = useContext(CartContext);
@@ -21,7 +23,7 @@ const Checkout = () => {
             !city ||
             !pincode
         ) {
-            alert("Please fill all fields.");
+             toast.error("Please fill all fields.");
 
             return;
         }
