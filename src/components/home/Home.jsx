@@ -7,19 +7,23 @@ import Categories from "./Categories";
 import FeaturedProducts from "./FeaturedProducts";
 import TodaysDeals from "./TodaysDeals";
 import ProductFilters from './ProductFilters'
-import getProducts from '../../services/productService'
+// import getProducts from '../../services/productService'
 import WishedListPage from "./WishedListPage";
 import AddCartPage from "./AddCartPage";
 import Profile from "../../pages/Profile";
+
+//redux syncthunk concept
+import { useSelector, useDispatch } from "react-redux";
+import { fetchProducts } from "../../redux/productSlice";
 
 
 const Home = () => {
 
   //lifting up state concepts, passing the states to nearest parent and from parent pass to other comp
 
-  const [productList, setProductList] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  // const [productList, setProductList] = useState([]);
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState("");
 
   const [searchText, setSearchText] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
@@ -27,10 +31,26 @@ const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [sortBy, setSortBy] = useState("default");
 
+  const dispatch = useDispatch();
+
+
+  const productState = useSelector(
+    (state) => state.products
+  );
+
+  const productList = productState.products;
+
+  const loading = productState.loading;
+
+  const error = productState.error;
 
   useEffect(() => {
-    loadProducts();
-  }, []);
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
+  // useEffect(() => {
+  //   loadProducts();
+  // }, []);
 
   useEffect(() => {
 
@@ -45,18 +65,18 @@ const Home = () => {
   }, [searchText]);
 
 
-  const loadProducts = async () => {
-    try {
-      const products = await getProducts();
+  // const loadProducts = async () => {
+  //   try {
+  //     const products = await getProducts();
 
-      setProductList(products);
-    } catch (error) {
-      console.error(error);
-      setError("Failed to load products.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     setProductList(products);
+  //   } catch (error) {
+  //     console.error(error);
+  //     setError("Failed to load products.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
 
   return (
