@@ -6,9 +6,9 @@ WorkCart is a responsive e-commerce web application built to learn and demonstra
 
 The project includes product browsing, authentication, state management, cart and wishlist functionality, protected routes, checkout, debounced search, Redux Toolkit, asynchronous API handling, toast notifications, and deployment.
 
-**Live Demo:** Add your Vercel URL here.
+**Live Demo:** https://workcart-react.vercel.app/
 
-**GitHub Repository:** Add your GitHub repository URL here.
+**GitHub Repository:** https://github.com/Mohammed-Aasif-Jahapana/workcart-react
 
 ---
 
